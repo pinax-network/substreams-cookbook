@@ -1,0 +1,2 @@
+# substreams-cookbook
+Substreams Cookbook
