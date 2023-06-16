@@ -1,0 +1,25 @@
+specVersion: v0.1.0
+package:
+  name: erc20
+  version: v0.1.0
+  url: https://github.com/pinax-network/substreams-cookbook
+  doc: ERC-20
+
+binaries:
+  default:
+    type: wasm/rust-v1
+    file: ../../target/wasm32-unknown-unknown/release/erc20.wasm
+
+protobuf:
+  files:
+    - erc20.proto
+  importPaths:
+    - ./proto/v1
+
+modules:
+  - name: map_transfers
+    kind: map
+    inputs:
+      - source: sf.ethereum.type.v2.Block
+    output:
+      type: proto:erc20.v1.TransferEvents

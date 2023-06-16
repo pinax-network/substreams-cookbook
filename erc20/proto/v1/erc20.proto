@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package erc20.v1;
+
+message TransferEvents {
+  repeated TransferEvent events = 1;
+}
+
+message TransferEvent {
+  string from = 1;
+  string to = 2;
+  string amount = 3;
+}
