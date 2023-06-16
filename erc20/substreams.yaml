@@ -8,7 +8,7 @@ package:
 binaries:
   default:
     type: wasm/rust-v1
-    file: ../../target/wasm32-unknown-unknown/release/erc20.wasm
+    file: ../target/wasm32-unknown-unknown/release/erc20.wasm
 
 protobuf:
   files:

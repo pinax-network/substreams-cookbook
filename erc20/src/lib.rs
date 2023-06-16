@@ -1,13 +1,7 @@
-use substreams::Hex;
-use substreams::log;
-use substreams::errors::Error;
-use substreams_ethereum::pb::eth::v2::Block;
+#[path = "pb/erc20.v1.rs"]
+#[allow(dead_code)]
+pub mod erc20;
+pub use self::erc20::*;
 
-#[substreams::handlers::map]
-pub fn map_transfers(block: Block) -> Result<TransferEvents, Error> {
-    for trace in block.transaction_traces.clone() {
-        log::info!("trace: {:?}", trace);
-    }
-
-    Ok(TransferEvents {})
-}
+mod maps;
+mod sinks;
