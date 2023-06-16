@@ -9,5 +9,5 @@ message TransferEvents {
 message TransferEvent {
   string from = 1;
   string to = 2;
-  string amount = 3;
+  // bigint amount = 3;
 }
