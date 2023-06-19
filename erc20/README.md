@@ -26,3 +26,33 @@
 |--------|-------------|
 | [`Transfer`](https://eips.ethereum.org/EIPS/eip-20#transfer-1) | MUST trigger when tokens are transferred, including zero value transfers. |
 | [`Approval`](https://eips.ethereum.org/EIPS/eip-20#approval) | MUST trigger on any successful call to `approve(address _spender, uint256 _value)`. |
+
+### Mermaid Graph
+
+```mermaid
+graph TD;
+  map_transfers[map: map_transfers];
+  sf.ethereum.type.v2.Block[source: sf.ethereum.type.v2.Block] --> map_transfers;
+  graph_out[map: graph_out];
+  map_transfers --> graph_out;
+```
+
+Here is a quick link to see the graph:
+
+https://mermaid.live/edit#pako:eJx0js9qwzAMh1_F6Jyast3c2-gbbLc6FGErTVn9B1kalJB3HySQEUaP-vHx6ZsglEjg4MZYR_N1PvlsTMJ6FcbcBuJ2SVjdfuoXqg2WZCQmTVaelezPm_14lPB9aUU5kHtN9OZw8Ho8vtNevHiXlGtRWT9vZ_-_7U-zUSefoYNEnPAewcHkQUZK5MF5iDSgPsTDDB2gSvl85gBOWKkDrRGFzne8MaZ1nH8DAAD__-8lZkw
+
+### Modules
+
+```yaml
+Name: map_transfers
+Initial block: 0
+Kind: map
+Output Type: proto:erc20.types.v1.TransferEvents
+Hash: 086ccbbe1121fb4642d6b7dad5b3317912410ec1
+
+Name: graph_out
+Initial block: 0
+Kind: map
+Output Type: proto:substreams.entity.v1.EntityChanges
+Hash: 8b5c6ee435ad738e9b1c171f937b4a0e79b2c00c
+```

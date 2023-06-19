@@ -17,3 +17,4 @@
 - Extract Events from Substreams
 - Sink data to Graph
 - Setup GraphQL
+- GitHub actions release builds
