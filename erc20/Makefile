@@ -27,12 +27,8 @@ info:
 
 .PHONY: run
 run:
-	substreams run map_transfers -s -1000 -o jsonl
+	substreams run graph_out -s -1000 -o jsonl
 
 .PHONY: gui
 gui:
-	substreams gui map_transfers -s -1000
-
-.PHONY: graph_out
-graph_out:
 	substreams gui graph_out -s -1000

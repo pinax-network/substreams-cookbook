@@ -32,14 +32,19 @@
 ```mermaid
 graph TD;
   map_transfers[map: map_transfers];
+  map_transfers:params[params] --> map_transfers;
   sf.ethereum.type.v2.Block[source: sf.ethereum.type.v2.Block] --> map_transfers;
+  map_approvals[map: map_approvals];
+  map_approvals:params[params] --> map_approvals;
+  sf.ethereum.type.v2.Block[source: sf.ethereum.type.v2.Block] --> map_approvals;
   graph_out[map: graph_out];
   map_transfers --> graph_out;
+  map_approvals --> graph_out;
 ```
 
 Here is a quick link to see the graph:
 
-https://mermaid.live/edit#pako:eJx0js9qwzAMh1_F6Jyast3c2-gbbLc6FGErTVn9B1kalJB3HySQEUaP-vHx6ZsglEjg4MZYR_N1PvlsTMJ6FcbcBuJ2SVjdfuoXqg2WZCQmTVaelezPm_14lPB9aUU5kHtN9OZw8Ho8vtNevHiXlGtRWT9vZ_-_7U-zUSefoYNEnPAewcHkQUZK5MF5iDSgPsTDDB2gSvl85gBOWKkDrRGFzne8MaZ1nH8DAAD__-8lZkw
+https://mermaid.live/edit#pako:eJyskEFqwzAQRa9iZu2Y0O7UXckN2p1lwmCP41DLGkYzgRBy99IY1BqnWWUl9Hn6PP0LtLEjcHAQ5KH43L35qSgC8l4Fp9STpDogu2XUrCnHKBhSPR9Nsdl4225faUnd3qW-Ih1IyEKlZ6bq9FK9j7H9qlM0acn9Tzzs_UmQWeIJxz_WOWrW1EPrTD3Zetl7G34fTWfjfL2z8W9NptZfug9BCYEk4LEDBxcPOlAgD85DRz3aqB6uUAKaxo_z1IJTMSrBuEOl3REPgmEOr98BAAD__zdOyhM
 
 ### Modules
 
@@ -48,11 +53,17 @@ Name: map_transfers
 Initial block: 0
 Kind: map
 Output Type: proto:erc20.types.v1.TransferEvents
-Hash: 086ccbbe1121fb4642d6b7dad5b3317912410ec1
+Hash: ea23d6bcf9504c3f307a673d32ceee22d1f274e8
+
+Name: map_approvals
+Initial block: 0
+Kind: map
+Output Type: proto:erc20.types.v1.ApprovalEvents
+Hash: 5160275734a2e466988f8f66b3e44128fd109359
 
 Name: graph_out
 Initial block: 0
 Kind: map
 Output Type: proto:substreams.entity.v1.EntityChanges
-Hash: 8b5c6ee435ad738e9b1c171f937b4a0e79b2c00c
+Hash: 3f4956a12b46db48e05cc4ce97e20e978eb8a54f
 ```
