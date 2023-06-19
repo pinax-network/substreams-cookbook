@@ -7,10 +7,38 @@ message TransferEvents {
 }
 
 message TransferEvent {
+  // contract address
   string address = 1;
+
+  // event payload
   string from = 2;
   string to = 3;
   string value = 4;
+
+  // trace information
+  string transaction_hash = 5;
+  uint64 gas_used = 6;
+  uint64 begin_ordinal = 7;
+  uint64 end_ordinal = 8;
+  uint32 index = 9;
+  string sender = 10;
+  string interacted_with = 11;
+}
+
+message ApprovalEvents {
+  repeated ApprovalEvent events = 1;
+}
+
+message ApprovalEvent {
+  // contract address
+  string address = 1;
+
+  // event payload
+  string owner = 2;
+  string spender = 3;
+  string value = 4;
+
+  // trace information
   string transaction_hash = 5;
   uint64 gas_used = 6;
   uint64 begin_ordinal = 7;
