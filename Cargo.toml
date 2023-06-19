@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "erc20"
+    "examples/erc20"
 ]
 
 [profile.release]

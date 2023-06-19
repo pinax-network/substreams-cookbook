@@ -1,11 +1,11 @@
 use crate::abi;
-use substreams::{log, hex, Hex};
+use substreams::{hex, Hex};
 use substreams::errors::Error;
 use substreams_ethereum::pb::eth::v2::Block;
 use abi::erc20::events::{Transfer, Approval};
 use crate::pb::erc20::types::v1::{TransferEvent, TransferEvents, ApprovalEvent, ApprovalEvents, BalanceOfStorageChange, BalanceOfStorageChanges};
 
-// to be changed as Param
+// Token contract addresses
 pub const TETHER: [u8; 20] = hex!("dac17f958d2ee523a2206206994597c13d831ec7");
 pub const USDC: [u8; 20] = hex!("a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48");
 
