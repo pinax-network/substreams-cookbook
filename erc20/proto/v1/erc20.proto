@@ -16,13 +16,7 @@ message TransferEvent {
   string value = 4;
 
   // trace information
-  string transaction_hash = 5;
-  uint64 gas_used = 6;
-  uint64 begin_ordinal = 7;
-  uint64 end_ordinal = 8;
-  uint32 index = 9;
-  string sender = 10;
-  string interacted_with = 11;
+  string transaction = 10;
 }
 
 message ApprovalEvents {
@@ -39,11 +33,21 @@ message ApprovalEvent {
   string value = 4;
 
   // trace information
-  string transaction_hash = 5;
-  uint64 gas_used = 6;
-  uint64 begin_ordinal = 7;
-  uint64 end_ordinal = 8;
-  uint32 index = 9;
-  string sender = 10;
-  string interacted_with = 11;
+  string transaction = 10;
+}
+
+message BalanceOfStorageChanges {
+  repeated BalanceOfStorageChange storage_changes = 1;
+}
+
+message BalanceOfStorageChange {
+  // contract address
+  string address = 1;
+
+  // storage changes
+  string owner = 2;
+  string balance = 3;
+
+  // trace information
+  string transaction = 10;
 }

@@ -14,7 +14,7 @@
 | [`symbol`](https://eips.ethereum.org/EIPS/eip-20#symbol) | Returns the symbol of the token. E.g. "HIX". |
 | [`decimals`](https://eips.ethereum.org/EIPS/eip-20#decimals) | Returns the number of decimals the token uses - e.g. `8`, means to divide the token amount by `100000000` to  |get its user representation.
 | [`totalSupply`](https://eips.ethereum.org/EIPS/eip-20#totalSupply) | Returns the total token supply. |
-| [`balanceOf`](https://eips.ethereum.org/EIPS/eip-20#balanceOf) | Returns the account balance of another account with address `_owner`. |
+| [`balanceOf`](https://eips.ethereum.org/EIPS/eip-20#balanceof) | Returns the account balance of another account with address `_owner`. |
 | [`transfer`](https://eips.ethereum.org/EIPS/eip-20#transfer) | Transfers _value amount of tokens to address `_to`, and MUST fire the `Transfer` event. |
 | [`transferFrom`](https://eips.ethereum.org/EIPS/eip-20#transferFrom) | Transfers _value amount of tokens from address `_from` to address `_to`, and MUST fire the `Transfer` event. |
 | [`approve`](https://eips.ethereum.org/EIPS/eip-20#approve) | Allows `_spender` to withdraw from your account multiple times, up to the `_value` amount. If this function is  |called again it overwrites the current allowance with `_value`.
@@ -29,22 +29,24 @@
 
 ### Mermaid Graph
 
+
 ```mermaid
 graph TD;
-  map_transfers[map: map_transfers];
-  map_transfers:params[params] --> map_transfers;
-  sf.ethereum.type.v2.Block[source: sf.ethereum.type.v2.Block] --> map_transfers;
-  map_approvals[map: map_approvals];
-  map_approvals:params[params] --> map_approvals;
-  sf.ethereum.type.v2.Block[source: sf.ethereum.type.v2.Block] --> map_approvals;
+  map_transfer[map: map_transfer];
+  sf.ethereum.type.v2.Block[source: sf.ethereum.type.v2.Block] --> map_transfer;
+  map_approval[map: map_approval];
+  sf.ethereum.type.v2.Block[source: sf.ethereum.type.v2.Block] --> map_approval;
+  map_balance_of[map: map_balance_of];
+  sf.ethereum.type.v2.Block[source: sf.ethereum.type.v2.Block] --> map_balance_of;
   graph_out[map: graph_out];
-  map_transfers --> graph_out;
-  map_approvals --> graph_out;
+  map_transfer --> graph_out;
+  map_approval --> graph_out;
+  map_balance_of --> graph_out;
 ```
 
 Here is a quick link to see the graph:
 
-https://mermaid.live/edit#pako:eJyskEFqwzAQRa9iZu2Y0O7UXckN2p1lwmCP41DLGkYzgRBy99IY1BqnWWUl9Hn6PP0LtLEjcHAQ5KH43L35qSgC8l4Fp9STpDogu2XUrCnHKBhSPR9Nsdl4225faUnd3qW-Ih1IyEKlZ6bq9FK9j7H9qlM0acn9Tzzs_UmQWeIJxz_WOWrW1EPrTD3Zetl7G34fTWfjfL2z8W9NptZfug9BCYEk4LEDBxcPOlAgD85DRz3aqB6uUAKaxo_z1IJTMSrBuEOl3REPgmEOr98BAAD__zdOyhM
+https://mermaid.live/edit#pako:eJyskU1qwzAQRq9iZu2Y0O7UXckN2l1kzFQex6HWD-OZQAi5e8EhEiFtV17q4_EeaC7gYk9g4MCYxupz92ZDVXlMnTCGeSDee0zmYWkXZh4akpGY1DdyTtScXpr3Kbrv_RyVHZm_ibbabKxut6_04M1pTInjCaeSvi9rp-_enP7CCYOjLg4lXra188W8iJcbdFHl1s7P9ukoRZOhp9_7jynh3ymowRN7PPZg4GJBRvJkwVjoaUCdxMIVakCV-HEODoywUg2aehTaHfHA6G_j9ScAAP__NE_Ymg
 
 ### Modules
 

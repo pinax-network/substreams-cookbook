@@ -20,26 +20,32 @@ protobuf:
     - ./proto/v1
 
 modules:
-  - name: map_transfers
+  - name: map_transfer
     kind: map
     inputs:
-      - params: string
       - source: sf.ethereum.type.v2.Block
     output:
       type: proto:erc20.types.v1.TransferEvents
 
-  - name: map_approvals
+  - name: map_approval
     kind: map
     inputs:
-      - params: string
       - source: sf.ethereum.type.v2.Block
     output:
       type: proto:erc20.types.v1.ApprovalEvents
 
+  - name: map_balance_of
+    kind: map
+    inputs:
+      - source: sf.ethereum.type.v2.Block
+    output:
+      type: proto:erc20.types.v1.BalanceOfStorageChanges
+
   - name: graph_out
     kind: map
     inputs:
-      - map: map_transfers
-      - map: map_approvals
+      - map: map_transfer
+      - map: map_approval
+      - map: map_balance_of
     output:
       type: proto:substreams.entity.v1.EntityChanges
