@@ -15,6 +15,7 @@ crate-type = ["cdylib"]
 ethabi = "18.0"
 prost = "0.11"
 prost-types = "0.11"
+num-bigint = "0.4"
 substreams = "0.5"
 substreams-ethereum = "0.9"
 substreams-entity-change = "1.2"

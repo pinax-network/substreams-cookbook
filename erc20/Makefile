@@ -32,3 +32,7 @@ run:
 .PHONY: gui
 gui:
 	substreams gui map_transfers -s -1000
+
+.PHONY: graph_out
+graph_out:
+	substreams gui graph_out -s -1000

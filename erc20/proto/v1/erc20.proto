@@ -1,13 +1,21 @@
 syntax = "proto3";
 
-package erc20.v1;
+package erc20.types.v1;
 
 message TransferEvents {
   repeated TransferEvent events = 1;
 }
 
 message TransferEvent {
-  string from = 1;
-  string to = 2;
-  // bigint amount = 3;
+  string address = 1;
+  string from = 2;
+  string to = 3;
+  string value = 4;
+  string transaction_hash = 5;
+  uint64 gas_used = 6;
+  uint64 begin_ordinal = 7;
+  uint64 end_ordinal = 8;
+  uint32 index = 9;
+  string sender = 10;
+  string interacted_with = 11;
 }
