@@ -2,15 +2,10 @@
 
 ## Examples
 
-- [ERC20](/erc20)
+- [ERC20](/examples/erc20)
 
-### Table of Contents
+## Patterns
 
-- 1. [Dynamic data sources](1.%20Dynamic%20data%20sources.md)
-- 2. [Parameterization of Factory contract.md](2.%20Parameterization%20of%20Factory%20contract.md)
-- 3. [Advanced parameters.md](3.%20Advanced%20parameters.md)
-
-### Ideas
-- Build Rust types from ABI
-- Extract Events from Substreams
-- Sink data to GraphNode
+1. [Dynamic data sources](patterns/1.%20Dynamic%20data%20sources.md)
+2. [Parameterization of Factory contract.md](patterns/2.%20Parameterization%20of%20Factory%20contract.md)
+3. [Advanced parameters.md](patterns/3.%20Advanced%20parameters.md)
