@@ -22,28 +22,31 @@
 
 ### Inputs `ERC20`
 
-| input         | method name   |
-|---------------|---------------|
-| `0xa9059cbb`  | transfer
-| `0x23b872dd`  | transferFrom
-| `0x095ea7b3`  | approve
+| input         | method                               |
+|---------------|--------------------------------------|
+| `0xa9059cbb`  | `transfer(address,uint256)`
+| `0x23b872dd`  | `transferFrom(address,address,uint256)`
+| `0x095ea7b3`  | `approve(address,uint256)`
 
-### Inputs `USDT Tether`
+### Inputs `Tether USDT`
 
-| input         | method name   |
-|---------------|---------------|
-| `0x0ecb93c0`  | addBlackList
-| `0x8456cb59`  | pause
-| `0x3f4ba83a`  | unpause
+> https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7#writeContract
 
-### Inputs `UDSC`
 
-| input         | method name   |
-|---------------|---------------|
-| `0x42966c68`  | burn
-| `0x40c10f19`  | mint
-| `0xd505accf`  | permit
-| `0x39509351`  | increaseAllowance
+| input         | method                               |
+|---------------|--------------------------------------|
+| `0xcc872b66`  | `issue(uint256)`
+| `0xdb006a75`  | `redeem(uint256)`
+
+### Inputs `Circle UDSC`
+
+> https://etherscan.io/address/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48#writeProxyContract
+
+| input         | method                               |
+|---------------|--------------------------------------|
+| `0x40c10f19`  | `mint(address,uint256)`
+| `0x42966c68`  | `burn(uint256)`
+| `0xf2fde38b`  | `transferOwnership(address)`
 
 ### Events
 

@@ -1,4 +1,4 @@
-use crate::{abi, utils};
+use crate::{abi};
 use substreams::{log, hex, Hex};
 use substreams::errors::Error;
 use substreams_ethereum::pb::eth::v2::Block;
@@ -62,16 +62,23 @@ pub fn map_balance_of(block: Block) -> Result<BalanceOfStorageChanges, Error> {
 
     // ETH calls
     for calls in block.calls() {
+        // filter by calls containing 36 bytes of raw data
+        let input = calls.call.clone().input;
+        if input.len() < 36 { continue; } // skip if not 36 bytes
+
+        // filter by method selector
+        // 0xa9059cbb => transfer(address,uint256)
+        // 0x23b872dd => transferFrom(address,address,uint256)
+        let method = Hex::encode(&input[0..4]);
+        if !["a9059cbb", "23b872dd"].contains(&method.as_str()) { continue; }
+
         // Storage changes
         for storage_change in &calls.call.storage_changes {
+
             // filter by contract address
             let address = Hex::encode(&storage_change.address);
             if ![Hex::encode(TETHER), Hex::encode(USDC)].contains(&address) { continue; }
-
-            // filter by method name
-            let method = utils::input_to_method(calls.call.clone().input);
-            let method_name = utils::method_to_name(method.as_str());
-            if !["transfer", "transferFrom"].contains(&method_name) { continue; }
+            log::debug!("method={} address={}", method, address);
 
             storage_changes.push(BalanceOfStorageChange {
                 // contract address
