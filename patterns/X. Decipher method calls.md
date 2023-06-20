@@ -1,7 +1,9 @@
 ## Decipher `method` calls
 
 > EVM `calldata` has a minimum of 36 bytes of raw data.
+>
 > The first 4 bytes is the method selector.
+>
 > The rest of the input data are method arguments in chunks of 32 bytes.
 
 ```rust
@@ -18,6 +20,7 @@ for calls in block.calls() {
 ### Convert `method` function to `SHA-3` method selector
 
 > First 4 bytes of the SHA-3 hash
+>
 > Each byte is represented by 2 characters in hex string
 
 **Typescript**
