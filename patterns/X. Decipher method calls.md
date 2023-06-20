@@ -9,7 +9,7 @@
 ```rust
 for calls in block.calls() {
   let input = calls.call.clone().input;
-  if input.len() < 36 { continue; }
+  if input.len() < 36 { continue; } // skip if not 36 bytes
   let method: String = Hex::encode(&input[0..4]);
   // => method
   //    0xa9059cbb => transfer(address,uint256)
