@@ -38,6 +38,8 @@
 
 ### Inputs `UDSC`
 
+| input         | method name   |
+|---------------|---------------|
 | `0x42966c68`  | burn
 | `0x40c10f19`  | mint
 | `0xd505accf`  | permit
