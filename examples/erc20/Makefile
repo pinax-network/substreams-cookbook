@@ -31,4 +31,4 @@ run:
 
 .PHONY: gui
 gui:
-	substreams gui graph_out -s -1000
+	substreams gui graph_out -s -10000

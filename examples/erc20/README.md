@@ -20,6 +20,29 @@
 | [`approve`](https://eips.ethereum.org/EIPS/eip-20#approve) | Allows `_spender` to withdraw from your account multiple times, up to the `_value` amount. If this function is  |called again it overwrites the current allowance with `_value`.
 | [`allowance`](https://eips.ethereum.org/EIPS/eip-20#allowance) | Returns the amount which `_spender` is still allowed to withdraw from `_owner`. |
 
+### Inputs `ERC20`
+
+| input         | method name   |
+|---------------|---------------|
+| `0xa9059cbb`  | transfer
+| `0x23b872dd`  | transferFrom
+| `0x095ea7b3`  | approve
+
+### Inputs `USDT Tether`
+
+| input         | method name   |
+|---------------|---------------|
+| `0x0ecb93c0`  | addBlackList
+| `0x8456cb59`  | pause
+| `0x3f4ba83a`  | unpause
+
+### Inputs `UDSC`
+
+| `0x42966c68`  | burn
+| `0x40c10f19`  | mint
+| `0xd505accf`  | permit
+| `0x39509351`  | increaseAllowance
+
 ### Events
 
 | Event  | Description |

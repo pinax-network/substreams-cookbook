@@ -1,5 +1,5 @@
-use crate::abi;
-use substreams::{hex, Hex};
+use crate::{abi, utils};
+use substreams::{log, hex, Hex};
 use substreams::errors::Error;
 use substreams_ethereum::pb::eth::v2::Block;
 use abi::erc20::events::{Transfer, Approval};
@@ -64,8 +64,14 @@ pub fn map_balance_of(block: Block) -> Result<BalanceOfStorageChanges, Error> {
     for calls in block.calls() {
         // Storage changes
         for storage_change in &calls.call.storage_changes {
+            // filter by contract address
             let address = Hex::encode(&storage_change.address);
-            if address != "dac17f958d2ee523a2206206994597c13d831ec7" { continue; }
+            if ![Hex::encode(TETHER), Hex::encode(USDC)].contains(&address) { continue; }
+
+            // filter by method name
+            let method = utils::input_to_method(calls.call.clone().input);
+            let method_name = utils::method_to_name(method.as_str());
+            if !["transfer", "transferFrom"].contains(&method_name) { continue; }
 
             storage_changes.push(BalanceOfStorageChange {
                 // contract address
