@@ -54,6 +54,6 @@ modules:
       type: proto:substreams.entity.v1.EntityChanges
 
 params:
-  map_transfer: dac17f958d2ee523a2206206994597c13d831ec7
-  map_approval: dac17f958d2ee523a2206206994597c13d831ec7
-  map_balance_of: dac17f958d2ee523a2206206994597c13d831ec7
+  map_transfer: 8f3cf7ad23cd3cadbd9735aff958023239c6a063
+  map_approval: 8f3cf7ad23cd3cadbd9735aff958023239c6a063
+  map_balance_of: 8f3cf7ad23cd3cadbd9735aff958023239c6a063

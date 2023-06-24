@@ -27,8 +27,8 @@ info:
 
 .PHONY: run
 run:
-	substreams run graph_out -s -1000 -o jsonl
+	substreams run map_transfer -e polygon.streamingfast.io:443 -s -1000 -o jsonl
 
 .PHONY: gui
 gui:
-	substreams gui graph_out -s -10000
+	substreams gui map_transfer -e polygon.streamingfast.io:443 -s -1000
