@@ -1,20 +1,16 @@
 use crate::{abi};
-use substreams::{log, hex, Hex};
+use substreams::Hex;
 use substreams::errors::Error;
 use substreams_ethereum::pb::eth::v2::Block;
 use abi::erc20::events::{Transfer, Approval};
 use crate::pb::erc20::types::v1::{TransferEvent, TransferEvents, ApprovalEvent, ApprovalEvents, BalanceOfStorageChange, BalanceOfStorageChanges};
 
-// Token contract addresses
-pub const TETHER: [u8; 20] = hex!("dac17f958d2ee523a2206206994597c13d831ec7");
-pub const USDC: [u8; 20] = hex!("a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48");
-pub const ADDRESSES: &[&[u8]] = &[&TETHER, &USDC];
-
 #[substreams::handlers::map]
-pub fn map_transfer(block: Block) -> Result<TransferEvents, Error> {
+pub fn map_transfer(params: String, block: Block) -> Result<TransferEvents, Error> {
+    let token_address = Hex::decode(params).unwrap();
     Ok(TransferEvents {
         events: block
-            .events::<Transfer>(&ADDRESSES)
+            .events::<Transfer>(&[&token_address])
             .filter_map(|(event, log)| {
                 Some(TransferEvent {
                     // contract address
@@ -34,10 +30,11 @@ pub fn map_transfer(block: Block) -> Result<TransferEvents, Error> {
 }
 
 #[substreams::handlers::map]
-pub fn map_approval(block: Block) -> Result<ApprovalEvents, Error> {
+pub fn map_approval(params: String, block: Block) -> Result<ApprovalEvents, Error> {
+    let token_address = Hex::decode(params).unwrap();
     Ok(ApprovalEvents {
         events: block
-            .events::<Approval>(&ADDRESSES)
+            .events::<Approval>(&[&token_address])
             .filter_map(|(event, log)| {
                 Some(ApprovalEvent {
                     // contract address
@@ -57,8 +54,9 @@ pub fn map_approval(block: Block) -> Result<ApprovalEvents, Error> {
 }
 
 #[substreams::handlers::map]
-pub fn map_balance_of(block: Block) -> Result<BalanceOfStorageChanges, Error> {
+pub fn map_balance_of(params: String, block: Block) -> Result<BalanceOfStorageChanges, Error> {
     let mut storage_changes = vec![];
+    let token_address = Hex::decode(params).unwrap();
 
     // ETH calls
     for calls in block.calls() {
@@ -72,17 +70,14 @@ pub fn map_balance_of(block: Block) -> Result<BalanceOfStorageChanges, Error> {
         let method = Hex::encode(&input[0..4]);
         if !["a9059cbb", "23b872dd"].contains(&method.as_str()) { continue; }
 
+        // Filter by token address
+        if !calls.call.address.eq(&token_address) { continue; }
+
         // Storage changes
         for storage_change in &calls.call.storage_changes {
-
-            // filter by contract address
-            let address = Hex::encode(&storage_change.address);
-            if ![Hex::encode(TETHER), Hex::encode(USDC)].contains(&address) { continue; }
-            log::debug!("method={} address={}", method, address);
-
             storage_changes.push(BalanceOfStorageChange {
                 // contract address
-                address,
+                address: Hex::encode(&storage_change.address),
 
                 // storage changes
                 owner: Hex::encode(&calls.call.caller),
