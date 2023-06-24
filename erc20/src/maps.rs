@@ -6,57 +6,56 @@ use abi::erc20::events::{Transfer, Approval};
 use crate::pb::erc20::types::v1::{TransferEvent, TransferEvents, ApprovalEvent, ApprovalEvents, BalanceOfStorageChange, BalanceOfStorageChanges};
 
 #[substreams::handlers::map]
-pub fn map_transfer(params: String, block: Block) -> Result<TransferEvents, Error> {
-    let token_address = Hex::decode(params).unwrap();
-    Ok(TransferEvents {
-        events: block
-            .events::<Transfer>(&[&token_address])
-            .filter_map(|(event, log)| {
-                Some(TransferEvent {
-                    // contract address
-                    address: Hex::encode(log.address()),
+pub fn map_transfer(block: Block) -> Result<TransferEvents, Error> {
+    let mut events = vec![];
 
-                    // event payload
-                    from: Hex::encode(event.from),
-                    to: Hex::encode(event.to),
-                    value: event.value.to_string(),
+    for log in block.logs() {
+        if !Transfer::match_log(log.log) { continue; } // no data
+        let event = Transfer::decode(log.log).unwrap();
 
-                    // trace information
-                    transaction: Hex::encode(&log.receipt.transaction.hash),
-                })
-            })
-            .collect()
-    })
+        events.push(TransferEvent {
+            // contract address
+            address: Hex::encode(log.address()),
+
+            // event payload
+            from: Hex::encode(event.from),
+            to: Hex::encode(event.to),
+            value: event.value.to_string(),
+
+            // trace information
+            transaction: Hex::encode(&log.receipt.transaction.hash),
+        })
+    }
+    Ok(TransferEvents{events})
 }
 
 #[substreams::handlers::map]
-pub fn map_approval(params: String, block: Block) -> Result<ApprovalEvents, Error> {
-    let token_address = Hex::decode(params).unwrap();
-    Ok(ApprovalEvents {
-        events: block
-            .events::<Approval>(&[&token_address])
-            .filter_map(|(event, log)| {
-                Some(ApprovalEvent {
-                    // contract address
-                    address: Hex::encode(log.clone().address()),
+pub fn map_approval(block: Block) -> Result<ApprovalEvents, Error> {
+    let mut events = vec![];
 
-                    // event payload
-                    owner: Hex::encode(event.owner),
-                    spender: Hex::encode(event.spender),
-                    value: event.value.to_string(),
+    for log in block.logs() {
+        if !Approval::match_log(log.log) { continue; } // no data
+        let event = Approval::decode(log.log).unwrap();
 
-                    // trace information
-                    transaction: Hex::encode(&log.receipt.transaction.hash),
-                })
-            })
-            .collect()
-    })
+        events.push(ApprovalEvent {
+            // contract address
+            address: Hex::encode(log.address()),
+
+            // event payload
+            owner: Hex::encode(event.owner),
+            spender: Hex::encode(event.spender),
+            value: event.value.to_string(),
+
+            // trace information
+            transaction: Hex::encode(&log.receipt.transaction.hash),
+        })
+    }
+    Ok(ApprovalEvents{events})
 }
 
 #[substreams::handlers::map]
-pub fn map_balance_of(params: String, block: Block) -> Result<BalanceOfStorageChanges, Error> {
+pub fn map_balance_of(block: Block) -> Result<BalanceOfStorageChanges, Error> {
     let mut storage_changes = vec![];
-    let token_address = Hex::decode(params).unwrap();
 
     // ETH calls
     for calls in block.calls() {
@@ -70,14 +69,12 @@ pub fn map_balance_of(params: String, block: Block) -> Result<BalanceOfStorageCh
         let method = Hex::encode(&input[0..4]);
         if !["a9059cbb", "23b872dd"].contains(&method.as_str()) { continue; }
 
-        // Filter by token address
-        if !calls.call.address.eq(&token_address) { continue; }
-
         // Storage changes
         for storage_change in &calls.call.storage_changes {
             storage_changes.push(BalanceOfStorageChange {
                 // contract address
                 address: Hex::encode(&storage_change.address),
+                method: method.to_string(),
 
                 // storage changes
                 owner: Hex::encode(&calls.call.caller),

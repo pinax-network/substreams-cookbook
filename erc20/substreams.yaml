@@ -23,7 +23,6 @@ modules:
   - name: map_transfer
     kind: map
     inputs:
-      - params: string
       - source: sf.ethereum.type.v2.Block
     output:
       type: proto:erc20.types.v1.TransferEvents
@@ -31,7 +30,6 @@ modules:
   - name: map_approval
     kind: map
     inputs:
-      - params: string
       - source: sf.ethereum.type.v2.Block
     output:
       type: proto:erc20.types.v1.ApprovalEvents
@@ -39,7 +37,6 @@ modules:
   - name: map_balance_of
     kind: map
     inputs:
-      - params: string
       - source: sf.ethereum.type.v2.Block
     output:
       type: proto:erc20.types.v1.BalanceOfStorageChanges
@@ -52,8 +49,3 @@ modules:
       - map: map_balance_of
     output:
       type: proto:substreams.entity.v1.EntityChanges
-
-params:
-  map_transfer: 8f3cf7ad23cd3cadbd9735aff958023239c6a063
-  map_approval: 8f3cf7ad23cd3cadbd9735aff958023239c6a063
-  map_balance_of: 8f3cf7ad23cd3cadbd9735aff958023239c6a063

@@ -31,4 +31,4 @@ run:
 
 .PHONY: gui
 gui:
-	substreams gui map_transfer -e polygon.streamingfast.io:443 -s -1000
+	substreams gui graph_out -e polygon.streamingfast.io:443 -s -1000

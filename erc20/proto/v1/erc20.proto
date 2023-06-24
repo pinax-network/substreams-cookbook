@@ -16,7 +16,7 @@ message TransferEvent {
   string value = 4;
 
   // trace information
-  string transaction = 10;
+  string transaction = 5;
 }
 
 message ApprovalEvents {
@@ -33,7 +33,7 @@ message ApprovalEvent {
   string value = 4;
 
   // trace information
-  string transaction = 10;
+  string transaction = 5;
 }
 
 message BalanceOfStorageChanges {
@@ -43,11 +43,12 @@ message BalanceOfStorageChanges {
 message BalanceOfStorageChange {
   // contract address
   string address = 1;
+  string method = 2;
 
   // storage changes
-  string owner = 2;
-  string balance = 3;
+  string owner = 4;
+  string balance = 5;
 
   // trace information
-  string transaction = 10;
+  string transaction = 6;
 }
