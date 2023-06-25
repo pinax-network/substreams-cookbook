@@ -44,9 +44,10 @@ pub fn graph_out(map_transfer: TransferEvents, map_approval: ApprovalEvents, map
         let id = format!("{}:{}", storage_change.owner, storage_change.transaction);
 
         entity_changes
-            .push_change("approval", id.as_str(), 0, entity_change::Operation::Create)
+            .push_change("balanceof", id.as_str(), 0, entity_change::Operation::Create)
             // contract address
             .change("address", storage_change.address)
+            .change("method", storage_change.method)
 
             // storage change
             .change("owner", storage_change.owner)
