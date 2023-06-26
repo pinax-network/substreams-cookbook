@@ -22,6 +22,7 @@ protobuf:
 modules:
   - name: map_transfer
     kind: map
+    initialBlock: 1397553
     inputs:
       - source: sf.ethereum.type.v2.Block
     output:
@@ -29,6 +30,7 @@ modules:
 
   - name: map_approval
     kind: map
+    initialBlock: 1397553
     inputs:
       - source: sf.ethereum.type.v2.Block
     output:
@@ -43,6 +45,7 @@ modules:
 
   - name: graph_out
     kind: map
+    initialBlock: 1397553
     inputs:
       - map: map_transfer
       - map: map_approval

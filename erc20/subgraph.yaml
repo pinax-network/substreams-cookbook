@@ -7,7 +7,7 @@ schema:
 dataSources:
   - kind: substreams
     name: erc20
-    network: Mainnet
+    network: mainnet
     source:
       package:
         moduleName: graph_out

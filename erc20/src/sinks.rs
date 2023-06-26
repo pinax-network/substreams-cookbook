@@ -10,7 +10,7 @@ pub fn graph_out(map_transfer: TransferEvents, map_approval: ApprovalEvents, map
         let id = format!("{}:{}", event.from, event.transaction);
 
         entity_changes
-            .push_change("transfer", id.as_str(), 0, entity_change::Operation::Create)
+            .push_change("Transfer", id.as_str(), 0, entity_change::Operation::Create)
             // contract address
             .change("address", event.address)
 
@@ -27,7 +27,7 @@ pub fn graph_out(map_transfer: TransferEvents, map_approval: ApprovalEvents, map
         let id = format!("{}:{}:{}", event.owner, event.spender, event.transaction);
 
         entity_changes
-            .push_change("approval", id.as_str(), 0, entity_change::Operation::Create)
+            .push_change("Approval", id.as_str(), 0, entity_change::Operation::Create)
             // contract address
             .change("address", event.address)
 
@@ -44,7 +44,7 @@ pub fn graph_out(map_transfer: TransferEvents, map_approval: ApprovalEvents, map
         let id = format!("{}:{}", storage_change.owner, storage_change.transaction);
 
         entity_changes
-            .push_change("balanceof", id.as_str(), 0, entity_change::Operation::Create)
+            .push_change("BalanceOf", id.as_str(), 0, entity_change::Operation::Create)
             // contract address
             .change("address", storage_change.address)
             .change("method", storage_change.method)
