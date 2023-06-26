@@ -17,6 +17,7 @@ message TransferEvent {
 
   // trace information
   string transaction = 5;
+  uint64 block_index = 6;
 }
 
 message ApprovalEvents {
@@ -34,6 +35,7 @@ message ApprovalEvent {
 
   // trace information
   string transaction = 5;
+  uint64 block_index = 6;
 }
 
 message BalanceOfStorageChanges {

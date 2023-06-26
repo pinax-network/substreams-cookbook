@@ -21,6 +21,8 @@ pub struct TransferEvent {
     /// trace information
     #[prost(string, tag="5")]
     pub transaction: ::prost::alloc::string::String,
+    #[prost(uint64, tag="6")]
+    pub block_index: u64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -44,6 +46,8 @@ pub struct ApprovalEvent {
     /// trace information
     #[prost(string, tag="5")]
     pub transaction: ::prost::alloc::string::String,
+    #[prost(uint64, tag="6")]
+    pub block_index: u64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]

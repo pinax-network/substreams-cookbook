@@ -1,5 +1,5 @@
 use crate::{abi};
-use substreams::Hex;
+use substreams::{Hex};
 use substreams::errors::Error;
 use substreams_ethereum::pb::eth::v2::Block;
 use abi::erc20::events::{Transfer, Approval};
@@ -10,6 +10,10 @@ pub fn map_transfer(block: Block) -> Result<TransferEvents, Error> {
     let mut events = vec![];
 
     for log in block.logs() {
+        // filter only successful calls
+        if log.receipt.transaction.status != 1 { continue; }
+
+        // filter by type
         if !Transfer::match_log(log.log) { continue; } // no data
         let event = Transfer::decode(log.log).unwrap();
 
@@ -24,6 +28,7 @@ pub fn map_transfer(block: Block) -> Result<TransferEvents, Error> {
 
             // trace information
             transaction: Hex::encode(&log.receipt.transaction.hash),
+            block_index: log.log.block_index.into(),
         })
     }
     Ok(TransferEvents{events})
@@ -34,6 +39,10 @@ pub fn map_approval(block: Block) -> Result<ApprovalEvents, Error> {
     let mut events = vec![];
 
     for log in block.logs() {
+        // filter only successful calls
+        if log.receipt.transaction.status != 1 { continue; }
+
+        // filter by type
         if !Approval::match_log(log.log) { continue; } // no data
         let event = Approval::decode(log.log).unwrap();
 
@@ -48,6 +57,7 @@ pub fn map_approval(block: Block) -> Result<ApprovalEvents, Error> {
 
             // trace information
             transaction: Hex::encode(&log.receipt.transaction.hash),
+            block_index: log.log.block_index.into(),
         })
     }
     Ok(ApprovalEvents{events})
@@ -59,6 +69,9 @@ pub fn map_balance_of(block: Block) -> Result<BalanceOfStorageChanges, Error> {
 
     // ETH calls
     for calls in block.calls() {
+        // filter only successful calls
+        if calls.call.status_failed { continue; }
+
         // filter by calls containing 36 bytes of raw data
         let input = calls.call.clone().input;
         if input.len() < 36 { continue; } // skip if not 36 bytes

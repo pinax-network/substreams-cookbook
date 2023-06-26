@@ -7,7 +7,7 @@ pub fn graph_out(map_transfer: TransferEvents, map_approval: ApprovalEvents, map
     let mut entity_changes: EntityChanges = Default::default();
 
     for event in map_transfer.events {
-        let id = format!("{}:{}", event.from, event.transaction);
+        let id = format!("{}-{}", event.block_index, event.transaction);
 
         entity_changes
             .push_change("Transfer", id.as_str(), 0, entity_change::Operation::Create)
@@ -20,11 +20,12 @@ pub fn graph_out(map_transfer: TransferEvents, map_approval: ApprovalEvents, map
             .change("value", event.value)
 
             // trace information
-            .change("transaction", event.transaction);
+            .change("transaction", event.transaction)
+            .change("blockIndex", event.block_index);
     }
 
     for event in map_approval.events {
-        let id = format!("{}:{}:{}", event.owner, event.spender, event.transaction);
+        let id = format!("{}-{}", event.block_index, event.transaction);
 
         entity_changes
             .push_change("Approval", id.as_str(), 0, entity_change::Operation::Create)
@@ -37,11 +38,12 @@ pub fn graph_out(map_transfer: TransferEvents, map_approval: ApprovalEvents, map
             .change("value", event.value)
 
             // trace information
-            .change("transaction", event.transaction);
+            .change("transaction", event.transaction)
+            .change("blockIndex", event.block_index);
     }
 
     for storage_change in map_balance_of.storage_changes {
-        let id = format!("{}:{}", storage_change.owner, storage_change.transaction);
+        let id = format!("{}:{}", storage_change.address, storage_change.owner);
 
         entity_changes
             .push_change("BalanceOf", id.as_str(), 0, entity_change::Operation::Create)
