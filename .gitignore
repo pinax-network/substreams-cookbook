@@ -3,3 +3,4 @@ Cargo.lock
 *.spkg
 *.log
 node_modules
+build

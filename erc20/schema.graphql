@@ -1,0 +1,26 @@
+type BalanceOf @entity {
+  id: ID!
+  address: String!
+  method: String!
+  owner: String!
+  balance: String!
+  transaction: String!
+}
+
+type Transfer @entity {
+  id: ID!
+  address: String!
+  from: String!
+  to: String!
+  value: String!
+  transaction: String!
+}
+
+type Approval @entity {
+  id: ID!
+  address: String!
+  owner: String!
+  spender: String!
+  value: String!
+  transaction: String!
+}
