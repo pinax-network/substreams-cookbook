@@ -6,6 +6,8 @@ type Transfer @entity(immutable: true) {
   to: String!
   value: String!
   transaction: String!
+  block_num: BigInt!
+  timestamp: Int!
 }
 
 # Log
@@ -16,6 +18,8 @@ type Approval @entity(immutable: true) {
   spender: String!
   value: String!
   transaction: String!
+  block_num: BigInt!
+  timestamp: Int!
 }
 
 # State Change
@@ -26,4 +30,6 @@ type BalanceOf @entity {
   owner: String!
   balance: String!
   transaction: String!
+  block_num: BigInt!
+  timestamp: Int!
 }
