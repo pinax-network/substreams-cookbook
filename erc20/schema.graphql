@@ -6,7 +6,7 @@ type Transfer @entity {
   to: String!
   value: String!
   transaction: String!
-  blockIndex: Int!
+  blockIndex: BigInt!
 }
 
 # Log
@@ -17,7 +17,7 @@ type Approval @entity {
   spender: String!
   value: String!
   transaction: String!
-  blockIndex: Int!
+  blockIndex: BigInt!
 }
 
 # State Change
