@@ -1,23 +1,21 @@
 # Log
-type Transfer @entity {
+type Transfer @entity(immutable: true) {
   id: ID!
   address: String!
   from: String!
   to: String!
   value: String!
   transaction: String!
-  blockIndex: BigInt!
 }
 
 # Log
-type Approval @entity {
+type Approval @entity(immutable: true) {
   id: ID!
   address: String!
   owner: String!
   spender: String!
   value: String!
   transaction: String!
-  blockIndex: BigInt!
 }
 
 # State Change

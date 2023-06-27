@@ -70,9 +70,7 @@ graph TD;
   map_transfer --> graph_out;
   map_approval --> graph_out;
   map_balance_of --> graph_out;
-
 ```
-
 
 Here is a quick link to see the graph:
 
@@ -82,26 +80,26 @@ https://mermaid.live/edit#pako:eJyskU1qwzAQRq9iZu2Y0O7UXckN2l1kzFQex6HWD-OZQAi5e
 
 ```yaml
 Name: map_transfer
-Initial block: 0
+Initial block: 1397553
 Kind: map
 Output Type: proto:erc20.types.v1.TransferEvents
-Hash: 854cc4afbca7484fab18e3dd20bc65a399114564
+Hash: f5774353533c929e1d731e50c1993f24d175a641
 
 Name: map_approval
-Initial block: 0
+Initial block: 1397553
 Kind: map
 Output Type: proto:erc20.types.v1.ApprovalEvents
-Hash: 8950dc438ba0ccab94942ccf27219911486b68f7
+Hash: a37cfc2e8f423be2ced6c205848cf6f4928fe2a7
 
 Name: map_balance_of
 Initial block: 0
 Kind: map
 Output Type: proto:erc20.types.v1.BalanceOfStorageChanges
-Hash: a1e4cdd6b1b46ebcaf9a0e03069cdbfa8a140de9
+Hash: 5bc733c2a9cbcc763724d1eb22f12580957fc077
 
 Name: graph_out
-Initial block: 0
+Initial block: 1397553
 Kind: map
 Output Type: proto:substreams.entity.v1.EntityChanges
-Hash: 0518343dd8ef9203d759be7f0ce1ac44d38d0d57
+Hash: eb436e17ff5ba0b67e357127bb6d4c05fd8549fb
 ```
