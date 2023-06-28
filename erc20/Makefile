@@ -32,3 +32,7 @@ run:
 .PHONY: gui
 gui:
 	substreams gui graph_out -e polygon.streamingfast.io:443 -s -1000
+
+.PHONY: deploy
+deploy:
+	graph deploy --studio erc-20
