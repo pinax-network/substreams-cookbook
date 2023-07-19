@@ -1,9 +1,13 @@
 // @generated
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TransferEvents {
+pub struct Block {
     #[prost(message, repeated, tag="1")]
-    pub events: ::prost::alloc::vec::Vec<TransferEvent>,
+    pub approvals: ::prost::alloc::vec::Vec<ApprovalEvent>,
+    #[prost(message, repeated, tag="2")]
+    pub transfers: ::prost::alloc::vec::Vec<TransferEvent>,
+    #[prost(message, repeated, tag="3")]
+    pub storage_changes: ::prost::alloc::vec::Vec<BalanceOfStorageChange>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -26,12 +30,6 @@ pub struct TransferEvent {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ApprovalEvents {
-    #[prost(message, repeated, tag="1")]
-    pub events: ::prost::alloc::vec::Vec<ApprovalEvent>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ApprovalEvent {
     /// contract address
     #[prost(string, tag="1")]
@@ -48,12 +46,6 @@ pub struct ApprovalEvent {
     pub transaction: ::prost::alloc::string::String,
     #[prost(uint64, tag="6")]
     pub block_index: u64,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BalanceOfStorageChanges {
-    #[prost(message, repeated, tag="1")]
-    pub storage_changes: ::prost::alloc::vec::Vec<BalanceOfStorageChange>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]

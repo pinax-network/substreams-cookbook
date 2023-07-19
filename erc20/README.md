@@ -57,49 +57,32 @@
 
 ### Mermaid Graph
 
-
 ```mermaid
 graph TD;
-  map_transfer[map: map_transfer];
-  sf.ethereum.type.v2.Block[source: sf.ethereum.type.v2.Block] --> map_transfer;
-  map_approval[map: map_approval];
-  sf.ethereum.type.v2.Block[source: sf.ethereum.type.v2.Block] --> map_approval;
-  map_balance_of[map: map_balance_of];
-  sf.ethereum.type.v2.Block[source: sf.ethereum.type.v2.Block] --> map_balance_of;
+  map_block[map: map_block];
+  sf.ethereum.type.v2.Block[source: sf.ethereum.type.v2.Block] --> map_block;
   graph_out[map: graph_out];
-  map_transfer --> graph_out;
-  map_approval --> graph_out;
-  map_balance_of --> graph_out;
+  sf.substreams.v1.Clock[source: sf.substreams.v1.Clock] --> graph_out;
+  map_block --> graph_out;
+
 ```
 
 Here is a quick link to see the graph:
 
-https://mermaid.live/edit#pako:eJyskU1qwzAQRq9iZu2Y0O7UXckN2l1kzFQex6HWD-OZQAi5e8EhEiFtV17q4_EeaC7gYk9g4MCYxupz92ZDVXlMnTCGeSDee0zmYWkXZh4akpGY1DdyTtScXpr3Kbrv_RyVHZm_ibbabKxut6_04M1pTInjCaeSvi9rp-_enP7CCYOjLg4lXra188W8iJcbdFHl1s7P9ukoRZOhp9_7jynh3ymowRN7PPZg4GJBRvJkwVjoaUCdxMIVakCV-HEODoywUg2aehTaHfHA6G_j9ScAAP__NE_Ymg
+https://mermaid.live/edit#pako:eJx0j0FqAzEMRa9itJ6YtN25uzY3aHd1CIqtZEKj2NhSIIS5e8EDM22ZLL_-5z10h5AigYNjwdybz82rvxjDmHf7cwrfX4zZzXHb2nqwJD0VUrZyy2Svz_atrWvSEsg9XmzNauV1vX6hGdqYTb9LKqNxipOx6r5KIeRqr0_2_b9uof7lmnB_v1seQAdMhfEUwcHdg_TE5MF5iHRAPYuHATpAlfRxuwRwUpQ60BxRaHPCY0Eej8NPAAAA__89CXqq
 
 ### Modules
 
 ```yaml
-Name: map_transfer
+Name: map_block
 Initial block: 1397553
 Kind: map
-Output Type: proto:erc20.types.v1.TransferEvents
-Hash: f5774353533c929e1d731e50c1993f24d175a641
-
-Name: map_approval
-Initial block: 1397553
-Kind: map
-Output Type: proto:erc20.types.v1.ApprovalEvents
-Hash: a37cfc2e8f423be2ced6c205848cf6f4928fe2a7
-
-Name: map_balance_of
-Initial block: 0
-Kind: map
-Output Type: proto:erc20.types.v1.BalanceOfStorageChanges
-Hash: 5bc733c2a9cbcc763724d1eb22f12580957fc077
+Output Type: proto:erc20.types.v1.Block
+Hash: 70ac852f45288d446c2ef26da9e4262abb13be29
 
 Name: graph_out
 Initial block: 1397553
 Kind: map
-Output Type: proto:substreams.entity.v1.EntityChanges
-Hash: eb436e17ff5ba0b67e357127bb6d4c05fd8549fb
+Output Type: proto:sf.substreams.sink.entity.v1.EntityChanges
+Hash: 88893d90a260bf5856b9cbdece1ebcae656852d8
 ```

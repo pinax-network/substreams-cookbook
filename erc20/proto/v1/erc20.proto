@@ -2,8 +2,10 @@ syntax = "proto3";
 
 package erc20.types.v1;
 
-message TransferEvents {
-  repeated TransferEvent events = 1;
+message Block {
+  repeated ApprovalEvent approvals = 1;
+  repeated TransferEvent transfers = 2;
+  repeated BalanceOfStorageChange storage_changes = 3;
 }
 
 message TransferEvent {
@@ -20,10 +22,6 @@ message TransferEvent {
   uint64 block_index = 6;
 }
 
-message ApprovalEvents {
-  repeated ApprovalEvent events = 1;
-}
-
 message ApprovalEvent {
   // contract address
   string address = 1;
@@ -36,10 +34,6 @@ message ApprovalEvent {
   // trace information
   string transaction = 5;
   uint64 block_index = 6;
-}
-
-message BalanceOfStorageChanges {
-  repeated BalanceOfStorageChange storage_changes = 1;
 }
 
 message BalanceOfStorageChange {

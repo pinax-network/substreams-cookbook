@@ -6,7 +6,7 @@ package:
   doc: ERC-20
 
 imports:
-  entities: https://github.com/streamingfast/substreams-entity-change/releases/download/v0.2.1/substreams-entity-change-v0.2.1.spkg
+  entities: https://github.com/streamingfast/substreams-sink-entity-changes/releases/download/v1.3.0/substreams-sink-entity-changes-v1.3.0.spkg
 
 binaries:
   default:
@@ -20,36 +20,20 @@ protobuf:
     - ./proto/v1
 
 modules:
-  - name: map_transfer
+  - name: map_block
     kind: map
+    doc: Extracts 'Approval' & 'Transfer' events from the block and storage changes from 'transfer' and 'transferFrom' functions.
     initialBlock: 1397553
     inputs:
       - source: sf.ethereum.type.v2.Block
     output:
-      type: proto:erc20.types.v1.TransferEvents
-
-  - name: map_approval
-    kind: map
-    initialBlock: 1397553
-    inputs:
-      - source: sf.ethereum.type.v2.Block
-    output:
-      type: proto:erc20.types.v1.ApprovalEvents
-
-  - name: map_balance_of
-    kind: map
-    inputs:
-      - source: sf.ethereum.type.v2.Block
-    output:
-      type: proto:erc20.types.v1.BalanceOfStorageChanges
+      type: proto:erc20.types.v1.Block
 
   - name: graph_out
     kind: map
     initialBlock: 1397553
     inputs:
       - source: sf.substreams.v1.Clock
-      - map: map_transfer
-      - map: map_approval
-      - map: map_balance_of
+      - map: map_block
     output:
-      type: proto:substreams.entity.v1.EntityChanges
+      type: proto:sf.substreams.sink.entity.v1.EntityChanges

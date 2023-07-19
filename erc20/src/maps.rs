@@ -1,93 +1,112 @@
-use crate::{abi};
-use substreams::{Hex};
+use crate::abi::{self};
+use crate::pb::erc20::types::v1::{
+    ApprovalEvent, BalanceOfStorageChange, Block as Erc20Block, TransferEvent,
+};
+use abi::erc20::{
+    events::{Approval, Transfer},
+    functions::Transfer as TransferFun,
+    functions::TransferFrom as TransferFromFun,
+};
 use substreams::errors::Error;
+use substreams::Hex;
+use substreams_ethereum::block_view::LogView;
 use substreams_ethereum::pb::eth::v2::Block;
-use abi::erc20::events::{Transfer, Approval};
-use crate::pb::erc20::types::v1::{TransferEvent, TransferEvents, ApprovalEvent, ApprovalEvents, BalanceOfStorageChange, BalanceOfStorageChanges};
+use substreams_ethereum::Event;
 
 #[substreams::handlers::map]
-pub fn map_transfer(block: Block) -> Result<TransferEvents, Error> {
-    let mut events = vec![];
+pub fn map_block(block: Block) -> Result<Erc20Block, Error> {
+    let (approvals, transfers) = map_events(&block);
+    let storage_changes = map_balance_of(block.clone());
 
-    for log in block.logs() {
-        // filter only successful calls
-        if log.receipt.transaction.status != 1 { continue; }
-
-        // filter by type
-        if !Transfer::match_log(log.log) { continue; } // no data
-        let event = Transfer::decode(log.log).unwrap();
-
-        events.push(TransferEvent {
-            // contract address
-            address: Hex::encode(log.address()),
-
-            // event payload
-            from: Hex::encode(event.from),
-            to: Hex::encode(event.to),
-            value: event.value.to_string(),
-
-            // trace information
-            transaction: Hex::encode(&log.receipt.transaction.hash),
-            block_index: log.log.block_index.into(),
-        })
-    }
-    Ok(TransferEvents{events})
+    Ok(Erc20Block {
+        approvals,
+        transfers,
+        storage_changes,
+    })
 }
 
-#[substreams::handlers::map]
-pub fn map_approval(block: Block) -> Result<ApprovalEvents, Error> {
-    let mut events = vec![];
+pub fn map_events(block: &Block) -> (Vec<ApprovalEvent>, Vec<TransferEvent>) {
+    let mut approvals = vec![];
+    let mut transfers = vec![];
 
     for log in block.logs() {
-        // filter only successful calls
-        if log.receipt.transaction.status != 1 { continue; }
-
+        // received logs are only from successful transaction, no need to check
         // filter by type
-        if !Approval::match_log(log.log) { continue; } // no data
-        let event = Approval::decode(log.log).unwrap();
+        if let Some(approval) = Approval::match_and_decode(log.log) {
+            approvals.push(decode_approval(approval, log));
+            continue;
+        }
 
-        events.push(ApprovalEvent {
-            // contract address
-            address: Hex::encode(log.address()),
+        if let Some(transfer) = Transfer::match_and_decode(log.log) {
+            transfers.push(decode_transfer(transfer, log));
+            continue;
+        }
 
-            // event payload
-            owner: Hex::encode(event.owner),
-            spender: Hex::encode(event.spender),
-            value: event.value.to_string(),
-
-            // trace information
-            transaction: Hex::encode(&log.receipt.transaction.hash),
-            block_index: log.log.block_index.into(),
-        })
+        // no data
     }
-    Ok(ApprovalEvents{events})
+
+    (approvals, transfers)
 }
 
-#[substreams::handlers::map]
-pub fn map_balance_of(block: Block) -> Result<BalanceOfStorageChanges, Error> {
+fn decode_transfer(event: Transfer, log: LogView) -> TransferEvent {
+    TransferEvent {
+        // contract address
+        address: Hex::encode(log.address()),
+
+        // event payload
+        from: Hex::encode(event.from),
+        to: Hex::encode(event.to),
+        value: event.value.to_string(),
+
+        // trace information
+        transaction: Hex::encode(&log.receipt.transaction.hash),
+        block_index: log.log.block_index.into(),
+    }
+}
+
+fn decode_approval(event: Approval, log: LogView) -> ApprovalEvent {
+    ApprovalEvent {
+        // contract address
+        address: Hex::encode(log.address()),
+
+        // event payload
+        owner: Hex::encode(event.owner),
+        spender: Hex::encode(event.spender),
+        value: event.value.to_string(),
+
+        // trace information
+        transaction: Hex::encode(&log.receipt.transaction.hash),
+        block_index: log.log.block_index.into(),
+    }
+}
+
+pub fn map_balance_of(block: Block) -> Vec<BalanceOfStorageChange> {
     let mut storage_changes = vec![];
 
     // ETH calls
     for calls in block.calls() {
         // filter only successful calls
-        if calls.call.status_failed { continue; }
+        if calls.call.state_reverted {
+            continue;
+        }
 
         // filter by calls containing 36 bytes of raw data
-        let input = calls.call.clone().input;
-        if input.len() < 36 { continue; } // skip if not 36 bytes
+        let input = &calls.call.input;
+        if input.len() < 36 {
+            continue;
+        } // skip if not 36 bytes
 
         // filter by method selector
-        // 0xa9059cbb => transfer(address,uint256)
-        // 0x23b872dd => transferFrom(address,address,uint256)
-        let method = Hex::encode(&input[0..4]);
-        if !["a9059cbb", "23b872dd"].contains(&method.as_str()) { continue; }
+        if !TransferFun::match_call(calls.call) && !TransferFromFun::match_call(calls.call) {
+            continue;
+        }
 
         // Storage changes
         for storage_change in &calls.call.storage_changes {
             storage_changes.push(BalanceOfStorageChange {
                 // contract address
                 address: Hex::encode(&storage_change.address),
-                method: method.to_string(),
+                method: Hex::encode(&input[0..4]),
 
                 // storage changes
                 owner: Hex::encode(&calls.call.caller),
@@ -98,5 +117,6 @@ pub fn map_balance_of(block: Block) -> Result<BalanceOfStorageChanges, Error> {
             })
         }
     }
-    Ok(BalanceOfStorageChanges { storage_changes })
+
+    storage_changes
 }
