@@ -1,0 +1,24 @@
+name: Substreams
+on:
+    release:
+        types: [ published ]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: erc20
+    steps:
+      - uses: actions/checkout@v3
+      - uses: supplypike/setup-bin@v3
+        with:
+          uri: 'https://github.com/streamingfast/substreams/releases/download/v1.1.8/substreams_linux_x86_64.tar.gz'
+          name: 'substreams'
+          version: '1.1.8'
+
+      - run: make
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            *.spkg
