@@ -64,7 +64,6 @@ graph TD;
   graph_out[map: graph_out];
   sf.substreams.v1.Clock[source: sf.substreams.v1.Clock] --> graph_out;
   map_block --> graph_out;
-
 ```
 
 Here is a quick link to see the graph:
