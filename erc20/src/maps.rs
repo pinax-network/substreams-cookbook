@@ -16,7 +16,7 @@ use substreams_ethereum::Event;
 #[substreams::handlers::map]
 pub fn map_block(block: Block) -> Result<Erc20Block, Error> {
     let (approvals, transfers) = map_events(&block);
-    let storage_changes = map_balance_of(block.clone());
+    let storage_changes = map_balance_of(block);
 
     Ok(Erc20Block {
         approvals,
